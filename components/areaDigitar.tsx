@@ -1,12 +1,14 @@
+import style from "@/styles/areaDigitar.module.css"
+
 export const AreaDigitar = ()=>{
     return (
-        <div style={{backgroundColor:"#BBDEFB", display:"flex", padding:"10px"}}>
+        <div className={style.digitar}>
             <div>
-                <input style={{backgroundColor:"white"}} type="text" />
+                <input placeholder="Digite aqui a sua mensagem ..." type="text" />
             </div>
             
             <div>
-                <button style={{backgroundColor: "#0D47A1", color:"white"}}>Enviar</button>
+                <button>Enviar</button>
             </div>
         </div>
     )

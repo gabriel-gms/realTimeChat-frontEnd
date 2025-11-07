@@ -1,0 +1,12 @@
+.status {
+    background-color: #d2e8faff;
+    width: 300px;
+    padding-left: 20px;
+}
+
+.status ul li{
+    list-style-position: inside;
+}
+.status ul li::marker{
+    color: rgb(17, 176, 17);
+}

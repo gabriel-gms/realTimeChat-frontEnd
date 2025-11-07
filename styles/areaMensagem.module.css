@@ -1,0 +1,27 @@
+.mensagem {
+    background-color: #E3F2FD;
+    flex: 1;
+}
+
+.mensagem .caixatexto {
+    background-color: rgb(74, 143, 223);
+    width: 800px;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.mensagem .caixatextoDois {
+    background-color: rgb(118, 158, 204);
+    width: 800px;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    margin-left: 380px
+}
+
+.mensagem .entradaSaida {
+    background-color: rgb(31, 64, 98);
+    color: white;
+    text-align: center;
+}

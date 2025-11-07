@@ -1,6 +1,9 @@
+import style from "@/styles/statusUser.module.css"
+
 export const StatusUser = ()=>{
     return(
-        <div style={{backgroundColor:"#d2e8faff"}}>
+        <div className={style.status}>
+            <h3>Usuários online</h3>
             <ul>
                 <li>João</li>
                 <li>Mário</li>
