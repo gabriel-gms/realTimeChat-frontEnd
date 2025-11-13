@@ -1,8 +1,6 @@
-import style from "@/styles/statusUser.module.css"
-
 export const StatusUser = ()=>{
     return(
-        <div className={style.status}>
+        <div>
             <h3>Usuários online</h3>
             <ul>
                 <li>João</li>

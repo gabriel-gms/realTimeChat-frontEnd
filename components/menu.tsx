@@ -1,9 +1,7 @@
-import style from "@/styles/menu.module.css"
-
 export const Menu = ()=>{
 
     return (
-        <div className={style.menu}>
+        <div>
             ZAP ZAP XING LING
         </div>
     )
