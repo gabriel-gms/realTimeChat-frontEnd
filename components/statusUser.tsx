@@ -1,6 +1,6 @@
 export const StatusUser = ()=>{
     return(
-        <div>
+        <div className="bg-blue-200 w-72">
             <h3>Usuários online</h3>
             <ul>
                 <li>João</li>

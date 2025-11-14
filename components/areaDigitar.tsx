@@ -1,12 +1,12 @@
 export const AreaDigitar = ()=>{
     return (
-        <div>
+        <div className=" bg-blue-200 flex">
             <div>
-                <input placeholder="Digite aqui a sua mensagem ..." type="text" />
+                <input className="bg-white" placeholder="Digite aqui a sua mensagem ..." type="text" />
             </div>
             
             <div>
-                <button>Enviar</button>
+                <button className="bg-blue-300">Enviar</button>
             </div>
         </div>
     )
