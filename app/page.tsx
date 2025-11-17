@@ -27,11 +27,11 @@ const Page = ()=>{
   }
 
   return (
-    <div className="h-screen">
+    <div className="h-screen flex flex-col">
           
           <Menu />
-          <div className="flex justify-between">
-            <div className="flex-1">
+          <div className="flex-1 flex justify-between">
+            <div className="flex-1 flex flex-col">
               <AreaMensagem />
               <AreaDigitar />
             </div>
