@@ -1,13 +1,13 @@
 type Props = {
     valorInput: string,
     setValorInput: (v: string) => void,
-    addNomeUsuarioClick: () => void
+    addNomeUsuario: () => void
 }
 
 export const Login = (data: Props) => {
     function addNomeUsuarioKey (e: {key: string }){
     if(e.key === 'Enter' && data.valorInput.trim() !== ''){
-      data.addNomeUsuarioClick()
+      data.addNomeUsuario()
     }}
 
     return (
@@ -26,7 +26,7 @@ export const Login = (data: Props) => {
                 
                 onKeyDown={addNomeUsuarioKey} type="text"/>
 
-                <button className="bg-blue-50 rounded-lg p-1 m-1" onClick={data.addNomeUsuarioClick}>Entrar</button>
+                <button className="bg-blue-50 rounded-lg p-1 m-1" onClick={data.addNomeUsuario}>Entrar</button>
 
               </div>
           

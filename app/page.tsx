@@ -6,13 +6,17 @@ import { Login } from "@/components/Login"
 import { Menu } from "@/components/menu"
 import { StatusUser } from "@/components/statusUser"
 import { useState } from "react"
+import { InfoChat } from "@/types/InfoChat"
 
-const Page = ()=>{
+const Page_chat = ()=>{
   let [nomeUsuario, setNomeUsuario] = useState<string>('')
   let [valorInput, setValorInput] = useState<string>('')
   let [usuarioLogado, setUsuarioLogado] = useState<boolean>(false)
 
-  function addNomeUsuarioClick (){
+  let [msg, setMsg] = useState<InfoChat[]>([])
+  let [inputMsg, setInputMsg] = useState<string>('')
+
+  function addNomeUsuario (){
     setNomeUsuario(valorInput)
     setValorInput('')
     setUsuarioLogado(true)
@@ -22,7 +26,7 @@ const Page = ()=>{
     return <Login 
             valorInput={valorInput}
             setValorInput={setValorInput}
-            addNomeUsuarioClick={addNomeUsuarioClick}
+            addNomeUsuario={addNomeUsuario}
           />
   }
 
@@ -32,8 +36,16 @@ const Page = ()=>{
           <Menu />
           <div className="flex-1 flex justify-between">
             <div className="flex-1 flex flex-col">
-              <AreaMensagem />
-              <AreaDigitar />
+              <AreaMensagem 
+                msg={msg}
+              />
+              <AreaDigitar 
+                nomeUsuario={nomeUsuario}
+                setMsg={setMsg}
+                setInputMsg={setInputMsg}
+                inputMsg={inputMsg}
+                msg={msg}
+              />
             </div>
             <StatusUser />
           </div>
@@ -42,4 +54,4 @@ const Page = ()=>{
   )
 }
 
-export default Page
+export default Page_chat
