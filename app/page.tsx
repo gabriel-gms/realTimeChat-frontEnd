@@ -7,11 +7,14 @@ import { Menu } from "@/components/menu"
 import { StatusUser } from "@/components/statusUser"
 import { useState } from "react"
 import { InfoChat } from "@/types/InfoChat"
+import { Usuario } from "@/types/Usuario"
 
 const Page_chat = ()=>{
-  let [nomeUsuario, setNomeUsuario] = useState<string>('')
-  let [valorInput, setValorInput] = useState<string>('')
-  let [usuarioLogado, setUsuarioLogado] = useState<boolean>(false)
+  let num = -1
+
+  const [nomeUsuario, setNomeUsuario] = useState<string>('')
+  const [valorInput, setValorInput] = useState<string>('')
+  const [usuarioLogado, setUsuarioLogado] = useState<Usuario[]>([])
 
   let [msg, setMsg] = useState<InfoChat[]>([])
   let [inputMsg, setInputMsg] = useState<string>('')
@@ -19,10 +22,10 @@ const Page_chat = ()=>{
   function addNomeUsuario (){
     setNomeUsuario(valorInput)
     setValorInput('')
-    setUsuarioLogado(true)
+    setUsuarioLogado([...usuarioLogado, {id: num+1, nome: valorInput, logado: true}])
   }
 
-  if(!usuarioLogado){
+  if(usuarioLogado.length === 0){
     return <Login 
             valorInput={valorInput}
             setValorInput={setValorInput}
@@ -38,6 +41,7 @@ const Page_chat = ()=>{
             <div className="flex-1 flex flex-col">
               <AreaMensagem 
                 msg={msg}
+                usuarioLogado={usuarioLogado}
               />
               <AreaDigitar 
                 nomeUsuario={nomeUsuario}
@@ -47,7 +51,9 @@ const Page_chat = ()=>{
                 msg={msg}
               />
             </div>
-            <StatusUser />
+            <StatusUser 
+              usuarioLogado={usuarioLogado}
+            />
           </div>
           <script src="/socket.io/socket.io.js"></script>
     </div>
