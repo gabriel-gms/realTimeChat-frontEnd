@@ -7,14 +7,26 @@ import { Menu } from "@/components/menu"
 import { StatusUser } from "@/components/statusUser"
 import { useState } from "react"
 import { InfoChat } from "@/types/InfoChat"
-import { Usuario } from "@/types/Usuario"
+import { io } from "socket.io-client"
 
 const Page_chat = ()=>{
-  let num = -1
+  const [lista, setLista] = useState<string[]>([])
+
+  const socket = io('http://localhost:3000', {
+    transports: ["websocket", "polling"],
+    withCredentials: true
+  })
+
+  socket.on('lista', (usuariosConectados: string[])=>{
+        setLista(usuariosConectados)
+  })
+
+  socket.on('lista-broadcast', (data)=> {
+    setLista(data.list)
+  })
 
   const [nomeUsuario, setNomeUsuario] = useState<string>('')
   const [valorInput, setValorInput] = useState<string>('')
-  const [usuarioLogado, setUsuarioLogado] = useState<Usuario[]>([])
 
   let [msg, setMsg] = useState<InfoChat[]>([])
   let [inputMsg, setInputMsg] = useState<string>('')
@@ -22,42 +34,40 @@ const Page_chat = ()=>{
   function addNomeUsuario (){
     setNomeUsuario(valorInput)
     setValorInput('')
-    setUsuarioLogado([...usuarioLogado, {id: num+1, nome: valorInput, logado: true}])
+    socket.emit('entrada', valorInput)
   }
-
-  if(usuarioLogado.length === 0){
+  
+  if(nomeUsuario === ''){
     return <Login 
-            valorInput={valorInput}
-            setValorInput={setValorInput}
-            addNomeUsuario={addNomeUsuario}
-          />
+    valorInput={valorInput}
+    setValorInput={setValorInput}
+    addNomeUsuario={addNomeUsuario}
+    />
   }
-
+  
   return (
-    <div className="h-screen flex flex-col">
-          
-          <Menu />
-          <div className="flex-1 flex justify-between">
-            <div className="flex-1 flex flex-col">
-              <AreaMensagem 
-                msg={msg}
-                usuarioLogado={usuarioLogado}
-              />
-              <AreaDigitar 
-                nomeUsuario={nomeUsuario}
-                setMsg={setMsg}
-                setInputMsg={setInputMsg}
-                inputMsg={inputMsg}
-                msg={msg}
+      <div className="h-screen flex flex-col">
+            
+            <Menu />
+            <div className="flex-1 flex justify-between">
+              <div className="flex-1 flex flex-col">
+                <AreaMensagem 
+                  msg={msg}
+                />
+                <AreaDigitar 
+                  nomeUsuario={nomeUsuario}
+                  setMsg={setMsg}
+                  setInputMsg={setInputMsg}
+                  inputMsg={inputMsg}
+                  msg={msg}
+                />
+              </div>
+              <StatusUser 
+                lista={lista}
               />
             </div>
-            <StatusUser 
-              usuarioLogado={usuarioLogado}
-            />
-          </div>
-          <script src="/socket.io/socket.io.js"></script>
-    </div>
-  )
-}
+            <script src="/socket.io/socket.io.js"></script>
+      </div>
+    )}
 
 export default Page_chat

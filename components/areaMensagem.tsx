@@ -3,10 +3,9 @@ import { Usuario } from "@/types/Usuario"
 
 type Props = {
     msg: InfoChat[]
-    usuarioLogado: Usuario[]
 }
 
-export const AreaMensagem = ({msg, usuarioLogado}: Props)=>{
+export const AreaMensagem = ({msg}: Props)=>{
 
     return (
         <div className="flex-1 bg-blue-200">
@@ -15,7 +14,7 @@ export const AreaMensagem = ({msg, usuarioLogado}: Props)=>{
                 <p>conteudo da mensagem</p>
             </div>
             
-            <p className="bg-blue-950 text-white text-center">{usuarioLogado} entrou</p>
+            <p className="bg-blue-950 text-white text-center">{} entrou</p>
             
             {
                 msg.map((v, i)=>{

@@ -1,17 +1,18 @@
 import { Usuario } from "@/types/Usuario"
+import { Socket } from "socket.io-client"
 
 type Props = {
-    usuarioLogado: Usuario[]
+    lista: string[]
 }
 
-export const StatusUser = ({usuarioLogado}: Props)=>{
+export const StatusUser = ({lista}: Props)=>{
     return(
         <div className="border-l-2 pl-5 bg-blue-200 w-72">
             <h3>Usuários online</h3>
             <ul className="list-disc marker:text-green-700">
                 {
-                    usuarioLogado.map(item => (
-                        <li>{item.nome}</li>
+                    lista.map(item => (
+                        <li>{item}</li>
                     ))
                 }
             </ul>
