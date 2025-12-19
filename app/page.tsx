@@ -11,6 +11,11 @@ import { io } from "socket.io-client"
 
 const Page_chat = ()=>{
   const [lista, setLista] = useState<string[]>([])
+  const [nomeUsuario, setNomeUsuario] = useState<string>('')
+  const [valorInput, setValorInput] = useState<string>('')
+  const [entradaSaida, setEntradaSaida] = useState<string>('')
+  let [msg, setMsg] = useState<InfoChat[]>([])
+  let [inputMsg, setInputMsg] = useState<string>('')
 
   const socket = io('http://localhost:3000', {
     transports: ["websocket", "polling"],
@@ -22,14 +27,14 @@ const Page_chat = ()=>{
   })
 
   socket.on('lista-broadcast', (data)=> {
+    if(data.joined){
+      setEntradaSaida(`${data.joined} entrou`)
+    }
+    if(data.left){
+      setEntradaSaida(`${data.joined} saiu`)
+    }
     setLista(data.list)
   })
-
-  const [nomeUsuario, setNomeUsuario] = useState<string>('')
-  const [valorInput, setValorInput] = useState<string>('')
-
-  let [msg, setMsg] = useState<InfoChat[]>([])
-  let [inputMsg, setInputMsg] = useState<string>('')
 
   function addNomeUsuario (){
     setNomeUsuario(valorInput)
@@ -52,7 +57,7 @@ const Page_chat = ()=>{
             <div className="flex-1 flex justify-between">
               <div className="flex-1 flex flex-col">
                 <AreaMensagem 
-                  msg={msg}
+                  entradaSaida={entradaSaida}
                 />
                 <AreaDigitar 
                   nomeUsuario={nomeUsuario}
