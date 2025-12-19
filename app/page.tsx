@@ -6,7 +6,6 @@ import { Login } from "@/components/Login"
 import { Menu } from "@/components/menu"
 import { StatusUser } from "@/components/statusUser"
 import { useState } from "react"
-import { InfoChat } from "@/types/InfoChat"
 import { io } from "socket.io-client"
 
 const Page_chat = ()=>{
@@ -14,8 +13,9 @@ const Page_chat = ()=>{
   const [nomeUsuario, setNomeUsuario] = useState<string>('')
   const [valorInput, setValorInput] = useState<string>('')
   const [entradaSaida, setEntradaSaida] = useState<string>('')
-  let [msg, setMsg] = useState<InfoChat[]>([])
-  let [inputMsg, setInputMsg] = useState<string>('')
+  const [msg, setMsg] = useState<string>('')
+  const [inputMsg, setInputMsg] = useState<string>('')
+  const [objMsg, setObjMsg] = useState({nome: '', msg: ''})
 
   const socket = io('http://localhost:3000', {
     transports: ["websocket", "polling"],
@@ -34,6 +34,15 @@ const Page_chat = ()=>{
       setEntradaSaida(`${data.joined} saiu`)
     }
     setLista(data.list)
+  })
+
+  if(msg!==""){
+    socket.emit('msg', msg)
+  }
+
+  socket.on('msg', (data)=>{
+    setObjMsg({nome: data.usename, msg: data.msg})
+    setMsg('')
   })
 
   function addNomeUsuario (){
@@ -58,13 +67,13 @@ const Page_chat = ()=>{
               <div className="flex-1 flex flex-col">
                 <AreaMensagem 
                   entradaSaida={entradaSaida}
+                  objMsg={objMsg}
                 />
                 <AreaDigitar 
-                  nomeUsuario={nomeUsuario}
-                  setMsg={setMsg}
-                  setInputMsg={setInputMsg}
-                  inputMsg={inputMsg}
                   msg={msg}
+                  setMsg={setMsg}
+                  inputMsg={inputMsg}
+                  setInputMsg={setInputMsg}
                 />
               </div>
               <StatusUser 

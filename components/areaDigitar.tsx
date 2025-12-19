@@ -1,17 +1,13 @@
-import { InfoChat } from "@/types/InfoChat"
-
 type Props = {
-    nomeUsuario: string
-    setMsg: ([]: InfoChat[]) => void 
-    setInputMsg: (v: string) => void
+    msg: string
+    setMsg: (s: string) => void
     inputMsg: string
-    msg: InfoChat[]
+    setInputMsg: (s: string) => void
 }
 
-export const AreaDigitar = ({nomeUsuario, setMsg, setInputMsg, inputMsg, msg}:Props)=>{
-
+export const AreaDigitar = ({msg, setMsg, inputMsg, setInputMsg}:Props)=>{
     function addMsg(){
-        setMsg([...msg,{nome: nomeUsuario, msg: inputMsg}])
+        setMsg(inputMsg)
         setInputMsg('')
     }
 

@@ -1,6 +1,3 @@
-import { Usuario } from "@/types/Usuario"
-import { Socket } from "socket.io-client"
-
 type Props = {
     lista: string[]
 }

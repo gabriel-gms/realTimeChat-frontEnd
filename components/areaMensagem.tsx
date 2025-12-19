@@ -1,11 +1,12 @@
-import { InfoChat } from "@/types/InfoChat"
-import { Usuario } from "@/types/Usuario"
-
 type Props = {
     entradaSaida: string
+    objMsg: {
+        nome: string
+        msg: string
+    }
 }
 
-export const AreaMensagem = ({entradaSaida}: Props)=>{
+export const AreaMensagem = ({entradaSaida, objMsg}: Props)=>{
 
     return (
         <div className="flex-1 bg-blue-200">
@@ -15,16 +16,12 @@ export const AreaMensagem = ({entradaSaida}: Props)=>{
             </div>
             
             <p className="bg-blue-950 text-white text-center">{entradaSaida}</p>
-            
-            {
-                msg.map((v, i)=>{
-                    return <div key={i} className="m-1 rounded-sm bg-blue-500 p-2 text-right ml-auto w-max">
-                                <h2><strong>{v.nome}</strong></h2>
-                                <p>{v.msg}</p>
-                            </div>
-                })
-            }
 
-        </div>
+            <div className="m-1 rounded-sm bg-blue-500 p-2 text-right ml-auto w-max">
+                                <h2><strong>{objMsg.nome}</strong></h2>
+                                <p>{objMsg.msg}</p>
+                            </div>
+
+            </div>
     )
 }
