@@ -15,7 +15,7 @@ const Page_chat = ()=>{
   const [entradaSaida, setEntradaSaida] = useState<string>('')
   const [msg, setMsg] = useState<string>('')
   const [inputMsg, setInputMsg] = useState<string>('')
-  const [objMsg, setObjMsg] = useState({nome: '', msg: ''})
+  const [objMsg, setObjMsg] = useState([{nome: '', msg: ''}])
 
   const socket = io('http://localhost:3000', {
     transports: ["websocket", "polling"],
@@ -36,12 +36,12 @@ const Page_chat = ()=>{
     setLista(data.list)
   })
 
-  if(msg!==""){
-    socket.emit('msg', msg)
+  if(msg!==''){
+    socket.emit('msg', {username: nomeUsuario, msg: msg})
   }
 
   socket.on('msg', (data)=>{
-    setObjMsg({nome: data.usename, msg: data.msg})
+    setObjMsg([...objMsg,{nome: data.username, msg: data.msg}])
     setMsg('')
   })
 
@@ -66,6 +66,7 @@ const Page_chat = ()=>{
             <div className="flex-1 flex justify-between">
               <div className="flex-1 flex flex-col">
                 <AreaMensagem 
+                  nomeUsuario={nomeUsuario}
                   entradaSaida={entradaSaida}
                   objMsg={objMsg}
                 />

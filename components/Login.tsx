@@ -24,7 +24,9 @@ export const Login = (data: Props) => {
 
                 onChange={(e)=>data.setValorInput(e.target.value)}
                 
-                onKeyDown={addNomeUsuarioKey} type="text"/>
+                onKeyDown={addNomeUsuarioKey}
+
+                type="text"/>
 
                 <button className="bg-blue-50 rounded-lg p-1 m-1" onClick={data.addNomeUsuario}>Entrar</button>
 
