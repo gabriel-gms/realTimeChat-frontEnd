@@ -1,14 +1,18 @@
 type Props = {
-    msg: string
-    setMsg: (s: string) => void
     inputMsg: string
     setInputMsg: (s: string) => void
+    enviarMensagem: () => void
 }
 
-export const AreaDigitar = ({msg, setMsg, inputMsg, setInputMsg}:Props)=>{
+export const AreaDigitar = ({inputMsg, setInputMsg, enviarMensagem}:Props)=>{
     function addMsg(){
-        setMsg(inputMsg)
-        setInputMsg('')
+        enviarMensagem()
+    }
+
+    function setInputMsgKey(e: {key:string}){
+        if(e.key === "Enter" && inputMsg.trim()!==""){
+            addMsg()
+        }
     }
 
     return (
@@ -17,7 +21,10 @@ export const AreaDigitar = ({msg, setMsg, inputMsg, setInputMsg}:Props)=>{
                 <input 
                 value={inputMsg}
                 onChange={(e)=>{setInputMsg(e.target.value)}}
-                className="border rounded-sm w-290 bg-white" placeholder="Digite aqui a sua mensagem ..." type="text" />
+                onKeyDown={setInputMsgKey}
+                className="border rounded-sm w-290 bg-white" 
+                placeholder="Digite aqui a sua mensagem ..." 
+                type="text" />
             </div>
             
             <div>

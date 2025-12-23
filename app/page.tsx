@@ -5,50 +5,59 @@ import { AreaMensagem } from "@/components/areaMensagem"
 import { Login } from "@/components/Login"
 import { Menu } from "@/components/menu"
 import { StatusUser } from "@/components/statusUser"
-import { useState } from "react"
-import { io } from "socket.io-client"
+import { useEffect, useState, useRef } from "react"
+import { io, Socket } from "socket.io-client"
 
 const Page_chat = ()=>{
+  const socketRef = useRef<Socket | null>(null)
   const [lista, setLista] = useState<string[]>([])
   const [nomeUsuario, setNomeUsuario] = useState<string>('')
   const [valorInput, setValorInput] = useState<string>('')
   const [entradaSaida, setEntradaSaida] = useState<string>('')
-  const [msg, setMsg] = useState<string>('')
   const [inputMsg, setInputMsg] = useState<string>('')
-  const [objMsg, setObjMsg] = useState([{nome: '', msg: ''}])
+  const [objMsg, setObjMsg] = useState<{nome: string, msg: string}[]>([])
 
-  const socket = io('http://localhost:3000', {
-    transports: ["websocket", "polling"],
-    withCredentials: true
-  })
+  useEffect(()=> {
+    socketRef.current = io('http://localhost:3000', {
+      transports: ["websocket", "polling"],
+      withCredentials: true
+    })
 
-  socket.on('lista', (usuariosConectados: string[])=>{
-        setLista(usuariosConectados)
-  })
+    socketRef.current.on('lista', (usuariosConectados: string[])=>{
+      setLista(usuariosConectados)
+    })
 
-  socket.on('lista-broadcast', (data)=> {
-    if(data.joined){
-      setEntradaSaida(`${data.joined} entrou`)
+    socketRef.current.on('lista-broadcast', (data)=> {
+      if(data.joined){
+        setEntradaSaida(`${data.joined} entrou`)
+      }
+      if(data.left){
+        setEntradaSaida(`${data.left} saiu`)
+      }
+      setLista(data.list)
+    })
+
+    socketRef.current.on('msg', (data)=>{
+      setObjMsg(prev => [...prev, {nome: data.username, msg: data.msg}])
+    })
+
+    return () => {
+      socketRef.current?.disconnect()
     }
-    if(data.left){
-      setEntradaSaida(`${data.joined} saiu`)
-    }
-    setLista(data.list)
-  })
+  }, [])
 
-  if(msg!==''){
-    socket.emit('msg', {username: nomeUsuario, msg: msg})
+
+  function enviarMensagem(){
+    if(inputMsg!==''){
+      socketRef.current?.emit('msg', {username: nomeUsuario, msg: inputMsg})
+    }
+    setInputMsg('')
   }
-
-  socket.on('msg', (data)=>{
-    setObjMsg([...objMsg,{nome: data.username, msg: data.msg}])
-    setMsg('')
-  })
 
   function addNomeUsuario (){
     setNomeUsuario(valorInput)
     setValorInput('')
-    socket.emit('entrada', valorInput)
+    socketRef.current?.emit('entrada', valorInput)
   }
   
   if(nomeUsuario === ''){
@@ -71,10 +80,9 @@ const Page_chat = ()=>{
                   objMsg={objMsg}
                 />
                 <AreaDigitar 
-                  msg={msg}
-                  setMsg={setMsg}
                   inputMsg={inputMsg}
                   setInputMsg={setInputMsg}
+                  enviarMensagem={enviarMensagem}
                 />
               </div>
               <StatusUser 
