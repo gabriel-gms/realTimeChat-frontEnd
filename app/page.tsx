@@ -18,7 +18,7 @@ const Page_chat = ()=>{
   const [objMsg, setObjMsg] = useState<{nome: string, msg: string}[]>([])
 
   useEffect(()=> {
-    socketRef.current = io('http://localhost:3000', {
+    socketRef.current = io('https://real-time-chat-backend-x10o.onrender.com/', {
       transports: ["websocket", "polling"],
       withCredentials: true
     })
