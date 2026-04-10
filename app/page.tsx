@@ -10,12 +10,18 @@ import { io, Socket } from "socket.io-client"
 
 const Page_chat = ()=>{
   const socketRef = useRef<Socket | null>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
   const [lista, setLista] = useState<string[]>([])
   const [nomeUsuario, setNomeUsuario] = useState<string>('')
   const [valorInput, setValorInput] = useState<string>('')
   const [entradaSaida, setEntradaSaida] = useState<string>('')
   const [inputMsg, setInputMsg] = useState<string>('')
   const [objMsg, setObjMsg] = useState<{nome: string, msg: string}[]>([])
+
+  // Auto-scroll para a última mensagem
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [objMsg, entradaSaida])
 
   useEffect(()=> {
     socketRef.current = io('https://real-time-chat-backend-x10o.onrender.com/', {
@@ -72,13 +78,16 @@ const Page_chat = ()=>{
       <div className="h-screen flex flex-col">
             
             <Menu />
-            <div className="flex-1 flex justify-between">
-              <div className="flex-1 flex flex-col">
-                <AreaMensagem 
-                  nomeUsuario={nomeUsuario}
-                  entradaSaida={entradaSaida}
-                  objMsg={objMsg}
-                />
+            <div className="flex-1 flex justify-between min-h-0">
+              <div className="flex-1 flex flex-col min-h-0">
+                <div className="flex-1 overflow-y-auto bg-blue-200">
+                  <AreaMensagem 
+                    nomeUsuario={nomeUsuario}
+                    entradaSaida={entradaSaida}
+                    objMsg={objMsg}
+                  />
+                  <div ref={messagesEndRef} />
+                </div>
                 <AreaDigitar 
                   inputMsg={inputMsg}
                   setInputMsg={setInputMsg}

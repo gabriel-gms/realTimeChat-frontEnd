@@ -16,20 +16,22 @@ export const AreaDigitar = ({inputMsg, setInputMsg, enviarMensagem}:Props)=>{
     }
 
     return (
-        <div className="h-14 p-3 border-t-2 bg-blue-200 flex gap-2">
-            <div>
-                <input 
+        <div className="h-20 p-4 border-t-4 border-blue-400 bg-gradient-to-r from-blue-200 to-blue-100 flex gap-3 shadow-lg">
+            <input 
                 value={inputMsg}
                 onChange={(e)=>{setInputMsg(e.target.value)}}
                 onKeyDown={setInputMsgKey}
-                className="border rounded-sm w-290 bg-white" 
-                placeholder="Digite aqui a sua mensagem ..." 
-                type="text" />
-            </div>
+                className="flex-1 border-2 border-blue-300 rounded-lg px-4 py-2 bg-white text-gray-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-400 transition-all placeholder-gray-400" 
+                placeholder="Digite sua mensagem..." 
+                type="text" 
+            />
             
-            <div>
-                <button onClick={addMsg} className="border rounded-sm bg-blue-300">Enviar</button>
-            </div>
+            <button 
+                onClick={addMsg} 
+                className="px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-lg hover:shadow-lg transition-all duration-300 active:scale-95 hover:from-blue-700 hover:to-blue-800"
+            >
+                Enviar
+            </button>
         </div>
     )
 }
